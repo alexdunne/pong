@@ -7,6 +7,11 @@ body {
   overflow: auto;
 }
 
+body {
+  background-color: #222222;
+  color: #FFFFFF;
+}
+
 .fill-parent {
   width: 100%;
   height: 100%;
