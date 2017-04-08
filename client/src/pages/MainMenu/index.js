@@ -8,7 +8,6 @@ const MainMenu = () => {
     { to: '/join', text: 'Join Game'},
   ];
 
-
   return (
     <div className="v-wrap fill-parent">
       <div className="v-content text-center">
