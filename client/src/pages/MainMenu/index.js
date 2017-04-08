@@ -1,22 +1,21 @@
-import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import React from 'react';
 
-import './index.css';
+import Menu from '../../components/Menu';
 
-class MainMenu extends Component {
-  state = {  }
-  render() {
-    return (
-      <div className="main-menu fill-parent">
-        <div className="main-menu__content">  
-          <ul className="main-menu__links">
-            <li className="main-menu__link"><Link to="/new">New Game</Link></li>
-            <li className="main-menu__link"><Link to="/join">Join Game</Link></li>
-          </ul>
-        </div>
+const MainMenu = () => {
+  const links = [
+    { to: '/new', text: 'New Game'},
+    { to: '/join', text: 'Join Game'},
+  ];
+
+
+  return (
+    <div className="v-wrap fill-parent">
+      <div className="v-content text-center">
+        <Menu links={links} />
       </div>
-    );
-  }
-}
+    </div>
+  );
+};
 
 export default MainMenu;

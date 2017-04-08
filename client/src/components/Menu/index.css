@@ -1,31 +1,21 @@
-.main-menu {
-  display: table;
-}
-
-.main-menu__content {
-  display: table-cell;
-  vertical-align: middle;
-  text-align: center;
-}
-
-.main-menu__links {
+.menu {
   padding: 0;
   margin: 0;
 }
 
-.main-menu__link {
+.menu__link {
   padding-top: 50px;
   padding-bottom: 50px;
   font-size: 3.5rem;
 }
 
-.main-menu__link a {
+.menu__link a {
   color: #FFFFFF;
   text-decoration: none;
   font-family: 'Press Start 2P', cursive;
 }
 
-.main-menu__link:hover {
+.menu__link:hover {
   animation: blink-animation 0.8s steps(5, start) infinite;
   -webkit-animation: blink-animation 0.8s steps(5, start) infinite;
 }
