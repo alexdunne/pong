@@ -2,10 +2,10 @@ import React from 'react';
 
 import Menu from '../../components/Menu';
 
-const MainMenu = () => {
+const DeviceSelectionMenu = () => {
   const links = [
-    { to: '/device-selection', text: 'New Game'},
-    { to: '/join', text: 'Join Game'},
+    { to: '/player', text: 'I\'m Playing'},
+    { to: '/spectator', text: 'I\'m Watching'},
   ];
 
   return (
@@ -17,4 +17,4 @@ const MainMenu = () => {
   );
 };
 
-export default MainMenu;
+export default DeviceSelectionMenu;
