@@ -6,7 +6,9 @@
   "dependencies": {
     "glue": "^4.1.0",
     "hapi": "^16.3.0",
-    "socketio": "^1.0.0"
+    "random-words": "0.0.1",
+    "socketio": "^1.0.0",
+    "uuid": "^3.0.1"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

@@ -30,6 +30,9 @@ internals.manifest = {
           prefix: "/api/game"
         }
       }
+    },
+    {
+      plugin: "./game-sessions"
     }
   ]
 };

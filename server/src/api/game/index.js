@@ -9,7 +9,17 @@ exports.register = (server, options, next) => {
     config: {
       description: "Generates a new game session",
       handler: (request, reply) => {
-        return reply("OK");
+        const gameSessions = request.server.plugins["GameSessions"];
+
+        gameSessions
+          .createGameSession()
+          .then(session => {
+            return reply(session.code);
+          })
+          .catch(err => {
+            console.log(err);
+            return reply(err.message);
+          });
       }
     }
   });
