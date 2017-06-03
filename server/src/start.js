@@ -25,7 +25,10 @@ internals.manifest = {
     {
       plugin: "./api/game",
       options: {
-        select: ["api"]
+        select: ["api"],
+        routes: {
+          prefix: "/api/game"
+        }
       }
     }
   ]
