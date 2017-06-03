@@ -32,7 +32,7 @@ internals.manifest = {
 };
 
 internals.composeOptions = {
-  relativeTo: __dirname // NOTE: use `Path.resolve(process.cwd() 'lib')` when using babel/typescript/rollup
+  relativeTo: __dirname
 };
 
 Server.init(internals.manifest, internals.composeOptions, (err, server) => {

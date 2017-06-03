@@ -18,5 +18,5 @@ exports.register = (server, options, next) => {
 };
 
 exports.register.attributes = {
-  name: "game"
+  name: "ApiGame"
 };
