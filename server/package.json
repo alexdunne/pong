@@ -8,9 +8,11 @@
     "hapi": "^16.3.0",
     "socketio": "^1.0.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^1.11.0"
+  },
   "scripts": {
-    "start": "node ./src/start.js"
+    "start": "./node_modules/.bin/nodemon ./src/start.js"
   },
   "author": "Alex Dunne",
   "license": "MIT"
