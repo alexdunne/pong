@@ -10,12 +10,38 @@ class PlayerView extends Component {
     };
   }
 
-  componentWillMount() {
-    console.log(this.props.location.search);
-    // TODO:
-    // Check query param for id
-    // If no id, call end point requesting one
-    // Use the id to connect to the game
+  componentDidMount() {
+    const gameCode = this.getGameCodeFromUrl();
+
+    if (gameCode) {
+      return this.connectToGame(gameCode);
+    }
+
+    this.cancelRegisterRequestSource = axios.CancelToken.source();
+
+    axios
+      .post("http://localhost:4000/api/game/register", {
+        cancelToken: this.cancelRegisterRequestSource.token
+      })
+      .then(res => res.data)
+      .then(gameCode => {
+        this.connectToGame(gameCode);
+      })
+      .catch(console.log);
+  }
+
+  componentWillUnmount() {
+    this.cancelRegisterRequestSource.cancel();
+  }
+
+  getGameCodeFromUrl() {
+    const search = this.props.location.search;
+    const params = new URLSearchParams(search);
+    return params.get("game");
+  }
+
+  connectToGame(gameCode) {
+    // Do socket.io stuff here
   }
 
   render() {
