@@ -1,9 +1,9 @@
 const Handlers = require("./handlers");
 
-exports.register = function(server, options, next) {
+exports.register = (server, options, next) => {
   const io = require("socket.io")(server.select("game-events").listener);
 
-  io.on("connection", function(socket) {
+  io.on("connection", socket => {
     console.log("Received a new connection");
 
     socket.on("move", Handlers.move);

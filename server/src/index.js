@@ -2,13 +2,26 @@ var Hapi = require("hapi");
 
 var server = new Hapi.Server();
 
-server.connection({ port: 4000, labels: ["app"] });
-server.connection({ port: 4001, labels: ["game-events"] });
+server.connection({ host: "localhost", port: 4000, labels: ["api"] });
+server.connection({ host: "localhost", port: 4001, labels: ["game-events"] });
 
-server.register(require("./game-events"), function(err) {
+const plugins = [require("./game-events"), require("./api/game")];
+
+server.register(plugins, function(err) {
   if (err) {
     throw err;
   }
 
-  server.start();
+  // Start the server
+  server.start(err => {
+    if (err) {
+      throw err;
+    }
+
+    const apiServer = server.select("api");
+    const gameEventsServer = server.select("game-events");
+
+    console.log("Server running at:", apiServer.info.uri);
+    console.log("Server running at:", gameEventsServer.info.uri);
+  });
 });
