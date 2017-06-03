@@ -1,27 +1,18 @@
-var Hapi = require("hapi");
+const Glue = require("glue");
 
-var server = new Hapi.Server();
-
-server.connection({ host: "localhost", port: 4000, labels: ["api"] });
-server.connection({ host: "localhost", port: 4001, labels: ["game-events"] });
-
-const plugins = [require("./game-events"), require("./api/game")];
-
-server.register(plugins, function(err) {
-  if (err) {
-    throw err;
-  }
-
-  // Start the server
-  server.start(err => {
+exports.init = function(manifest, options, next) {
+  Glue.compose(manifest, options, (err, server) => {
     if (err) {
-      throw err;
+      return next(err);
     }
 
-    const apiServer = server.select("api");
-    const gameEventsServer = server.select("game-events");
+    // Start the server
+    server.start(err => {
+      if (err) {
+        throw err;
+      }
 
-    console.log("Server running at:", apiServer.info.uri);
-    console.log("Server running at:", gameEventsServer.info.uri);
+      return next(err, server);
+    });
   });
-});
+};
