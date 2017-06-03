@@ -14,11 +14,11 @@ exports.register = (server, options, next) => {
         gameSessions
           .createGameSession()
           .then(session => {
-            return reply(session.code);
+            reply(session.code);
           })
           .catch(err => {
             console.log(err);
-            return reply(err.message);
+            reply(err.message);
           });
       }
     }

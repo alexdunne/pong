@@ -7,7 +7,10 @@ internals.manifest = {
     {
       host: "localhost",
       port: 4000,
-      labels: ["api"]
+      labels: ["api"],
+      routes: {
+        cors: true
+      }
     },
     {
       host: "localhost",
