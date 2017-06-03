@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { withRouter } from "react-router-dom";
 import axios from "axios";
 
 class PlayerView extends Component {
@@ -25,6 +26,7 @@ class PlayerView extends Component {
       })
       .then(res => res.data)
       .then(gameCode => {
+        this.props.history.push(`/player?game=${gameCode}`);
         this.connectToGame(gameCode);
       })
       .catch(console.log);
@@ -42,6 +44,9 @@ class PlayerView extends Component {
 
   connectToGame(gameCode) {
     // Do socket.io stuff here
+    this.setState({
+      isLoading: false
+    });
   }
 
   render() {
@@ -53,4 +58,4 @@ class PlayerView extends Component {
   }
 }
 
-export default PlayerView;
+export default withRouter(PlayerView);
