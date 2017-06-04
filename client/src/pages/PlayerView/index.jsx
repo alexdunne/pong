@@ -47,6 +47,10 @@ class PlayerView extends Component {
     const socket = io("http://localhost:4001");
     socket.emit("join-game", { code: code });
 
+    socket.on("joined-game", function(data) {
+      console.log(data);
+    });
+
     this.setState({
       isLoading: false
     });

@@ -26,7 +26,7 @@ internals.create = {
     const gameSessions = request.server.plugins["GameSessions"];
 
     gameSessions
-      .create()
+      .createSession()
       .then(session => {
         reply({
           id: session.id,

@@ -1,10 +1,11 @@
 const SessionFactory = require("./session-factory");
+const UserFactory = require("./user-factory");
 
 const internals = {};
 
 internals.sessions = {};
 
-internals.getAll = () => {
+internals.getAllSessions = () => {
   return new Promise((resolve, reject) => {
     const sessions = Object.keys(internals.sessions).map(
       id => internals.sessions[id]
@@ -15,7 +16,7 @@ internals.getAll = () => {
 };
 
 internals.getById = sessionId => {
-  gameSessions.getAll().then(sessions => {
+  return internals.getAllSessions().then(sessions => {
     const session = sessions.reduce((acc, session) => {
       return session.id === sessionId ? session : acc;
     }, null);
@@ -25,7 +26,7 @@ internals.getById = sessionId => {
 };
 
 internals.getByCode = code => {
-  gameSessions.getAll().then(sessions => {
+  return internals.getAllSessions().then(sessions => {
     const session = sessions.reduce((acc, session) => {
       return session.code === code ? session : acc;
     }, null);
@@ -34,7 +35,7 @@ internals.getByCode = code => {
   });
 };
 
-internals.create = () => {
+internals.createSession = () => {
   return new Promise((resolve, reject) => {
     try {
       const session = SessionFactory.create();
@@ -50,14 +51,38 @@ internals.create = () => {
   });
 };
 
-internals.createRoom = sessionId => {
-  return new Promise((resolve, reject) => {});
+internals.updateSession = (id, session) => {
+  return new Promise((resolve, reject) => {
+    try {
+      internals.sessions = Object.assign({}, internals.sessions, {
+        [id]: session
+      });
+
+      resolve(session);
+    } catch (err) {
+      reject(err);
+    }
+  });
+};
+
+internals.addPlayerToSession = (sessionId, userId) => {
+  const user = UserFactory.create({ id: userId });
+
+  return internals
+    .getById(sessionId)
+    .then(session => {
+      session.players = session.players.concat(user);
+      return session;
+    })
+    .then(session => internals.updateSession(session.id, session));
 };
 
 exports.register = (server, options, next) => {
+  server.expose("getAllSessions", internals.getAllSessions);
   server.expose("getById", internals.getById);
   server.expose("getByCode", internals.getByCode);
-  server.expose("create", internals.create);
+  server.expose("createSession", internals.createSession);
+  server.expose("addPlayerToSession", internals.addPlayerToSession);
 
   next();
 };
