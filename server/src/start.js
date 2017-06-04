@@ -45,6 +45,10 @@ internals.composeOptions = {
 };
 
 Server.init(internals.manifest, internals.composeOptions, (err, server) => {
+  if (err) {
+    console.log(err);
+  }
+
   const apiServer = server.select("api");
   const eventsServer = server.select("game-events");
 
