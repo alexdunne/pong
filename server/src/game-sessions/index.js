@@ -4,7 +4,7 @@ const internals = {};
 
 internals.sessions = {};
 
-internals.getAllSessions = () => {
+internals.getAll = () => {
   return new Promise((resolve, reject) => {
     const sessions = Object.keys(internals.sessions).map(
       id => internals.sessions[id]
@@ -14,7 +14,27 @@ internals.getAllSessions = () => {
   });
 };
 
-internals.createGameSession = () => {
+internals.getById = sessionId => {
+  gameSessions.getAll().then(sessions => {
+    const session = sessions.reduce((acc, session) => {
+      return session.id === sessionId ? session : acc;
+    }, null);
+
+    return session;
+  });
+};
+
+internals.getByCode = code => {
+  gameSessions.getAll().then(sessions => {
+    const session = sessions.reduce((acc, session) => {
+      return session.code === code ? session : acc;
+    }, null);
+
+    return session;
+  });
+};
+
+internals.create = () => {
   return new Promise((resolve, reject) => {
     try {
       const session = SessionFactory.create();
@@ -30,9 +50,14 @@ internals.createGameSession = () => {
   });
 };
 
+internals.createRoom = sessionId => {
+  return new Promise((resolve, reject) => {});
+};
+
 exports.register = (server, options, next) => {
-  server.expose("getAllSessions", internals.getAllSessions);
-  server.expose("createGameSession", internals.createGameSession);
+  server.expose("getById", internals.getById);
+  server.expose("getByCode", internals.getByCode);
+  server.expose("create", internals.create);
 
   next();
 };

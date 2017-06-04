@@ -13,7 +13,7 @@ internals.after = (server, next) => {
   io.on("connection", socket => {
     console.log("Received a new connection");
 
-    socket.on("move", Handlers.move);
+    socket.on("join-game", Handlers.joinGame);
   });
 
   next();

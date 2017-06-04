@@ -13,19 +13,10 @@ internals.find = {
     const gameSessions = request.server.plugins["GameSessions"];
     const gameCode = encodeURIComponent(request.params.code);
 
-    gameSessions
-      .getAllSessions()
-      .then(sessions => {
-        const session = sessions.reduce((acc, session) => {
-          return session.code === gameCode ? session : acc;
-        }, null);
-
-        reply(session);
-      })
-      .catch(err => {
-        console.log(err);
-        reply(err.message);
-      });
+    gameSessions.getByCode(gameCode).then(reply).catch(err => {
+      console.log(err);
+      reply(err.message);
+    });
   }
 };
 
@@ -35,7 +26,7 @@ internals.create = {
     const gameSessions = request.server.plugins["GameSessions"];
 
     gameSessions
-      .createGameSession()
+      .create()
       .then(session => {
         reply({
           id: session.id,
