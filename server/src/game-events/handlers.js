@@ -1,1 +1,1 @@
-exports.move = function() {};
+exports.joinGame = function() {};

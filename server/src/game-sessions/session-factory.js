@@ -5,6 +5,5 @@ exports.create = () => ({
   id: uuidV4(),
   code: randomWords({ exactly: 2, join: "-" }),
   createdAt: new Date(),
-  players: [],
-  score: {}
+  players: []
 });
