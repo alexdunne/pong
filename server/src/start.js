@@ -15,7 +15,10 @@ internals.manifest = {
     {
       host: "localhost",
       port: 4001,
-      labels: ["game-events"]
+      labels: ["game-events"],
+      routes: {
+        cors: true
+      }
     }
   ],
   registrations: [

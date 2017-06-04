@@ -1,3 +1,1 @@
-exports.joinGame = function() {
-  console.log(this);
-};
+exports.joinGame = function(data) {};

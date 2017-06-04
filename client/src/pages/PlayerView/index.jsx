@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
+import io from "socket.io-client";
 
 class PlayerView extends Component {
   constructor() {
@@ -21,13 +22,13 @@ class PlayerView extends Component {
     this.cancelRegisterRequestSource = axios.CancelToken.source();
 
     axios
-      .post("http://localhost:4000/api/game/register", {
+      .post("http://localhost:4000/api/game/new", {
         cancelToken: this.cancelRegisterRequestSource.token
       })
       .then(res => res.data)
-      .then(gameCode => {
-        this.props.history.push(`/player?game=${gameCode}`);
-        this.connectToGame(gameCode);
+      .then(({ id, code }) => {
+        this.props.history.push(`/player?game=${code}`);
+        this.connectToGame(code);
       })
       .catch(console.log);
   }
@@ -42,8 +43,10 @@ class PlayerView extends Component {
     return params.get("game");
   }
 
-  connectToGame(gameCode) {
-    // Do socket.io stuff here
+  connectToGame(code) {
+    const socket = io("http://localhost:4001");
+    socket.emit("join-game", { code: code });
+
     this.setState({
       isLoading: false
     });
