@@ -13,28 +13,54 @@ internals.after = (server, next) => {
     console.log("Received a new connection");
 
     socket.on("join-game", function({ code }) {
-      console.log(
-        `Received request to join game ${code} from socket ${socket.id}`
-      );
+      internals.joinGame(gameSessions, socket, code);
+    });
 
-      gameSessions
-        .getByCode(code)
-        .then(session => {
-          if (session.players.length < 2) {
-            return gameSessions.addPlayerToSession(session.id, socket.id);
-          }
-        })
-        .then(session => {
-          if (session && session.code) {
-            socket.join(session.code);
-            socket.emit("joined-game");
-          }
-        })
-        .catch(console.log);
+    socket.on("spectate-game", function({ code }) {
+      internals.spectate(gameSessions, socket, code);
     });
   });
 
   next();
+};
+
+internals.joinGame = (gameSessions, socket, code) => {
+  console.log(`Received request to join game ${code} from socket ${socket.id}`);
+
+  gameSessions
+    .getByCode(code)
+    .then(session => gameSessions.addPlayerToSession(session.id, socket.id))
+    .then(session => {
+      if (session && session.code) {
+        socket.join(session.code);
+        socket.emit("join-game-success");
+      } else {
+        socket.emit("join-game-fail");
+      }
+    })
+    .catch(() => {
+      socket.emit("join-game-fail");
+    });
+};
+
+internals.spectate = (gameSessions, socket, code) => {
+  console.log(
+    `Received request to spectate game ${code} from socket ${socket.id}`
+  );
+
+  gameSessions
+    .getByCode(code)
+    .then(session => {
+      if (session && session.code) {
+        socket.join(session.code);
+        socket.emit("spectate-game-success");
+      } else {
+        socket.emit("spectate-game-fail");
+      }
+    })
+    .catch(() => {
+      socket.emit("spectate-game-fail");
+    });
 };
 
 exports.register.attributes = {

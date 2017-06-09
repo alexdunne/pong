@@ -71,7 +71,10 @@ internals.addPlayerToSession = (sessionId, userId) => {
   return internals
     .getById(sessionId)
     .then(session => {
-      session.players = session.players.concat(user);
+      if (session.players.length < 2) {
+        session.players = session.players.concat(user);
+      }
+
       return session;
     })
     .then(session => internals.updateSession(session.id, session));

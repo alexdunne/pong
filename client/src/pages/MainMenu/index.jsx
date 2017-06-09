@@ -1,11 +1,11 @@
-import React from 'react';
+import React from "react";
 
-import Menu from '../../components/Menu';
+import Menu from "../../components/Menu";
 
 const MainMenu = () => {
   const links = [
-    { to: '/device-selection', text: 'New Game'},
-    { to: '/join', text: 'Join Game'},
+    { to: "/device-selection", text: "New Game" },
+    { to: "/spectator", text: "Join Game" }
   ];
 
   return (

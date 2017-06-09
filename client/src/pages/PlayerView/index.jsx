@@ -8,7 +8,9 @@ class PlayerView extends Component {
     super();
 
     this.state = {
-      isLoading: true
+      isLoading: true,
+      joinedGamed: false,
+      failedToJoinGame: false
     };
   }
 
@@ -47,8 +49,16 @@ class PlayerView extends Component {
     const socket = io("http://localhost:4001");
     socket.emit("join-game", { code: code });
 
-    socket.on("joined-game", function(data) {
-      console.log(data);
+    socket.on("join-game-success", () => {
+      this.setState({
+        joinedGamed: true
+      });
+    });
+
+    socket.on("join-game-fail", () => {
+      this.setState({
+        failedToJoinGame: true
+      });
     });
 
     this.setState({
@@ -61,7 +71,15 @@ class PlayerView extends Component {
       return <span>Loading</span>;
     }
 
-    return <span>Finished loading</span>;
+    if (this.state.joinedGamed) {
+      return <span>Joined game!</span>;
+    }
+
+    if (this.state.failedToJoinGame) {
+      return <span>Failed to join the game :(</span>;
+    }
+
+    return <span>Joining game...</span>;
   }
 }
 
