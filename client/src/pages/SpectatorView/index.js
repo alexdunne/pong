@@ -21,7 +21,7 @@ class SpectatorView extends Component {
   }
 
   componentDidMount() {
-    const socket = io("http://localhost:4001");
+    const socket = io("http://192.168.1.70:4001");
 
     this.setState({
       socket: socket

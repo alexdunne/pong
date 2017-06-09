@@ -5,7 +5,7 @@ const internals = {};
 internals.manifest = {
   connections: [
     {
-      host: "localhost",
+      host: "192.168.1.70",
       port: 4000,
       labels: ["api"],
       routes: {
@@ -13,7 +13,7 @@ internals.manifest = {
       }
     },
     {
-      host: "localhost",
+      host: "192.168.1.70",
       port: 4001,
       labels: ["game-events"],
       routes: {

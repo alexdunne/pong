@@ -53,7 +53,7 @@ internals.spectate = (gameSessions, socket, code) => {
     .then(session => {
       if (session && session.code) {
         socket.join(session.code);
-        socket.emit("spectate-game-success");
+        socket.emit("spectate-game-success", { players: session.players });
       } else {
         socket.emit("spectate-game-fail");
       }

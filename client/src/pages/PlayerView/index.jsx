@@ -10,7 +10,8 @@ class PlayerView extends Component {
     this.state = {
       isLoading: true,
       joinedGamed: false,
-      failedToJoinGame: false
+      failedToJoinGame: false,
+      socket: null
     };
   }
 
@@ -24,7 +25,7 @@ class PlayerView extends Component {
     this.cancelRegisterRequestSource = axios.CancelToken.source();
 
     axios
-      .post("http://localhost:4000/api/game/new", {
+      .post("http://192.168.1.70:4000/api/game/new", {
         cancelToken: this.cancelRegisterRequestSource.token
       })
       .then(res => res.data)
@@ -46,7 +47,12 @@ class PlayerView extends Component {
   }
 
   connectToGame(code) {
-    const socket = io("http://localhost:4001");
+    const socket = io("http://192.168.1.70:4001");
+
+    this.setState({
+      socket: socket
+    });
+
     socket.emit("join-game", { code: code });
 
     socket.on("join-game-success", () => {
