@@ -5,10 +5,14 @@ import Paddle from "./paddle";
 
 class Pong extends Component {
   render() {
+    const { players } = this.props;
+    console.log(players);
     return (
-      <Stage width={1000} height={1000}>
+      <Stage width={window.innerWidth} height={window.innerHeight}>
         <Layer>
-          <Paddle />
+          {players.map(player =>
+            <Paddle key={player.id} x={player.x} y={player.y} />
+          )}
         </Layer>
       </Stage>
     );

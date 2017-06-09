@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import io from "socket.io-client";
 
 import Pong from "../../components/Pong";
@@ -13,7 +12,8 @@ class SpectatorView extends Component {
       isJoiningGame: false,
       joinedGamed: false,
       failedToJoinGame: false,
-      socket: null
+      socket: null,
+      players: []
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -27,10 +27,17 @@ class SpectatorView extends Component {
       socket: socket
     });
 
-    socket.on("spectate-game-success", () => {
+    socket.on("spectate-game-success", data => {
       this.setState({
         joinedGamed: true,
-        isJoiningGame: false
+        isJoiningGame: false,
+        players: data.players.map((player, index) => ({
+          id: player.id,
+          x: index === 0 ? 10 : window.innerWidth - 10 - 50,
+          y: (window.innerHeight - 150) / 2,
+          height: 150,
+          width: 50
+        }))
       });
     });
 
@@ -40,12 +47,6 @@ class SpectatorView extends Component {
         isJoiningGame: false
       });
     });
-  }
-
-  componentWillUnmount() {
-    if (this.cancelRegisterRequestSource) {
-      this.cancelRegisterRequestSource.cancel();
-    }
   }
 
   handleChange(e) {
@@ -70,7 +71,8 @@ class SpectatorView extends Component {
       gameCode,
       isJoiningGame,
       joinedGamed,
-      failedToJoinGame
+      failedToJoinGame,
+      players
     } = this.state;
 
     if (isJoiningGame) {
@@ -78,7 +80,7 @@ class SpectatorView extends Component {
     }
 
     if (joinedGamed) {
-      return <Pong />;
+      return <Pong players={players} />;
     }
 
     if (failedToJoinGame) {
