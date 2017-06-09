@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import axios from "axios";
 import io from "socket.io-client";
 
+import Pong from "../../components/Pong";
+
 class SpectatorView extends Component {
   constructor() {
     super();
@@ -76,7 +78,7 @@ class SpectatorView extends Component {
     }
 
     if (joinedGamed) {
-      return <span>Game on!</span>;
+      return <Pong />;
     }
 
     if (failedToJoinGame) {
